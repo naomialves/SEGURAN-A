@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -12,13 +11,21 @@
 <body>
     <section class="conteudo">
         <div class="conteudo-titulo">
-            <img src="unlock.svg" alt="cadeado fechado">
+            <img src="unlock.svg" alt="cadeado fechado" width="64" height="64" />
             <h2 class="titulo-principal">Gerador de senhas</h2>
             <h3 class="titulo-secundario">Gere instantaneamente uma senha aleatória e segura</h3>
         </div>
         <div class="conteudo-senha">
-            <label for="senha">Senha</label>
-            <input name="senha" type="text" id="campo-senha" readonly>
+            <label for="campo-senha">Senha</label>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <input name="senha" type="text" id="campo-senha" readonly autocomplete="off" aria-label="Senha gerada" aria-live="polite">
+                <button id="copiar-senha" class="parametro-senha__botao" aria-label="Copiar senha" tabindex="0" title="Copiar senha" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24">
+                        <rect x="7" y="7" width="13" height="13" rx="2" stroke="#FAF408" stroke-width="2" fill="none"/>
+                        <rect x="3" y="3" width="13" height="13" rx="2" stroke="#fff" stroke-width="2" fill="none"/>
+                    </svg>
+                </button>
+            </div>
         </div>
         <div class="parametro">
             <h3 class="parametro-titulo">Personalize sua senha</h3>
@@ -26,34 +33,34 @@
                 <div class="parametro-senha">
                     <h4 class="parametro-senha__titulo">Número de caracteres</h4>
                     <div class="parametro-senha-botoes">
-                        <button class="parametro-senha__botao">-</button>
-                        <p class="parametro-senha__texto">12</p>
-                        <button class="parametro-senha__botao">+</button>
+                        <button class="parametro-senha__botao" aria-label="Diminuir número de caracteres" type="button">-</button>
+                        <p class="parametro-senha__texto" aria-live="polite">12</p>
+                        <button class="parametro-senha__botao" aria-label="Aumentar número de caracteres" type="button">+</button>
                     </div>
                 </div>
                 <div class="parametro-senha">
                     <h4 class="parametro-senha__titulo">Características da senha</h4>
                     <div class="parametro-senha-checkbox">
-                        <input name="maiusculo" type="checkbox" class="checkbox" checked>
+                        <input id="maiusculo" name="maiusculo" type="checkbox" class="checkbox" checked>
                         <label for="maiusculo">Letras maiúsculas</label>
                     </div>
                     <div class="parametro-senha-checkbox">
-                        <input name="minusculo" type="checkbox" class="checkbox">
+                        <input id="minusculo" name="minusculo" type="checkbox" class="checkbox">
                         <label for="minusculo">Letras minúsculas</label>
                     </div>
                     <div class="parametro-senha-checkbox">
-                        <input name="numero" type="checkbox" class="checkbox">
+                        <input id="numero" name="numero" type="checkbox" class="checkbox">
                         <label for="numero">Números</label>
                     </div>
                     <div class="parametro-senha-checkbox">
-                        <input name="simbolo" type="checkbox" class="checkbox">
+                        <input id="simbolo" name="simbolo" type="checkbox" class="checkbox">
                         <label for="simbolo">Símbolos</label>
                     </div>
                 </div>
                 <div class="parametro-senha">
                     <h4 class="parametro-senha__titulo">Força da senha</h4>
                     <div class="barra"></div>
-                    <div class="forca fraca"></div>
+                    <div class="forca fraca" aria-hidden="true"></div>
                     <div class="parametro-senha-textos">
                         <p>Fraca</p>
                         <p>Média</p>
@@ -65,6 +72,26 @@
         </div>
     </section>
     <script src="script.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const btnCopiar = document.getElementById('copiar-senha');
+        const campoSenha = document.getElementById('campo-senha');
+        if (btnCopiar && campoSenha) {
+            btnCopiar.onclick = function () {
+                if (campoSenha.value) {
+                    navigator.clipboard.writeText(campoSenha.value);
+                    btnCopiar.classList.add('copiado');
+                    btnCopiar.title = "Copiado!";
+                    setTimeout(() => {
+                        btnCopiar.classList.remove('copiado');
+                        btnCopiar.title = "Copiar senha";
+                    }, 1200);
+                }
+            };
+        }
+    });
+    </script>
 </body>
 
+</html>
 </html>
