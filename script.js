@@ -10,22 +10,34 @@ const campoSenha = document.querySelector('#campo-senha');
 const checkbox = document.querySelectorAll('.checkbox');
 const forcaSenha = document.querySelector('.forca');
 
+// Ajuste: garantir mínimo 4 e máximo 20, e desabilitar botões nos limites
+function atualizarBotoes() {
+    if (botoes.length >= 3) {
+        botoes[0].disabled = tamanhoSenha <= 4;
+        botoes[0].classList.toggle('desabilitado', tamanhoSenha <= 4);
+        botoes[1].disabled = tamanhoSenha >= 20;
+        botoes[1].classList.toggle('desabilitado', tamanhoSenha >= 20);
+    }
+}
+
 botoes[0].onclick = diminuiTamanho;
 botoes[1].onclick = aumentaTamanho;
 
 function diminuiTamanho() {
-    if (tamanhoSenha > 1) {
+    if (tamanhoSenha > 4) {
         tamanhoSenha--;
+        numeroSenha.textContent = tamanhoSenha;
+        atualizarBotoes();
+        geraSenha();
     }
-    numeroSenha.textContent = tamanhoSenha;
-    geraSenha();
 }
 function aumentaTamanho() {
     if (tamanhoSenha < 20) {
         tamanhoSenha++;
+        numeroSenha.textContent = tamanhoSenha;
+        atualizarBotoes();
+        geraSenha();
     }
-    numeroSenha.textContent = tamanhoSenha;
-    geraSenha();
 }
 
 for (let i = 0; i < checkbox.length; i++) {
@@ -33,6 +45,7 @@ for (let i = 0; i < checkbox.length; i++) {
 }
 
 geraSenha();
+atualizarBotoes();
 
 function geraSenha() {
     let grupos = [];
@@ -101,3 +114,4 @@ function desabilitaBotaoCopiar(desabilitar) {
         btnCopiar.classList.toggle('desabilitado', desabilitar);
     }
 }
+
